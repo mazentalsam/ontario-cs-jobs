@@ -1,0 +1,5 @@
+backend/venv/
+scraper/venv/
+database/jobs.db
+__pycache__/
+*.pyc
