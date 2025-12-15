@@ -1,91 +1,109 @@
 import requests
 import sqlite3
 import os
+import re
 from datetime import datetime
 
 RAW_URL = "https://raw.githubusercontent.com/negarprh/Canadian-Tech-Internships-2026/main/README.md"
 
-
+# ---------------------------
+# DB connection helper
+# ---------------------------
 def get_db_connection():
     db_path = os.path.join(os.path.dirname(__file__), "..", "database", "jobs.db")
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 
-
+# ---------------------------
+# Save job into DB
+# ---------------------------
 def save_job(title, company, location, link, source, date_posted):
     conn = get_db_connection()
     cursor = conn.cursor()
-
     try:
         cursor.execute("""
-            INSERT OR IGNORE INTO jobs 
+            INSERT OR IGNORE INTO jobs
             (title, company, location, link, source, date_posted)
             VALUES (?, ?, ?, ?, ?, ?)
         """, (title, company, location, link, source, date_posted))
         conn.commit()
     except Exception as e:
-        print("❌ Insert error:", e)
+        print("❌ DB insert error:", e)
     finally:
         conn.close()
 
-
+# ---------------------------
+# Scrape GitHub Internship List
+# ---------------------------
 def scrape_github_list():
     print("\n🔍 Scraping GitHub Canadian Internships list...")
 
-    r = requests.get(RAW_URL)
-    if r.status_code != 200:
-        print("❌ Error fetching GitHub list")
+    res = requests.get(RAW_URL, timeout=15)
+    if res.status_code != 200:
+        print("❌ Failed to fetch GitHub README")
         return
 
-    lines = r.text.splitlines()
-
-    internships = []
+    lines = res.text.splitlines()
     started = False
+    internships = []
 
     for line in lines:
-        # Detect header
-        if "Company" in line and "Role" in line and "Location" in line:
+        # Detect table header robustly
+        if "| Company |" in line and "| Role |" in line:
             started = True
             continue
 
-        if started and line.startswith("|"):
-            parts = [x.strip() for x in line.split("|")[1:-1]]
+        if not started:
+            continue
 
-            if len(parts) < 4:
-                continue
+        if not line.startswith("|"):
+            continue
 
-            company = parts[0]
-            title = parts[1]      # role
-            location = parts[2]   # correct location
+        parts = [p.strip() for p in line.split("|")[1:-1]]
+        if len(parts) < 4:
+            continue
 
-            # Extract real link
-            raw_link = parts[3]
-            link = ""
-            if "(" in raw_link:
-                link = raw_link.split("(")[1].split(")")[0]
+        company = parts[0]
+        title = parts[1]
+        location = parts[2]
+        link_cell = parts[3]
 
-            # Skip sub-rows
-            if company == "↳":
-                continue
+        # Skip sub-rows (↳)
+        if company == "↳":
+            continue
 
-            # Skip useless rows
-            if not link.startswith("http"):
-                continue
+        # Extract ALL links in markdown cell
+        links = re.findall(r"\((https?://[^)]+)\)", link_cell)
 
-            internships.append((company, title, location, link))
+        # We need at least 2:
+        # 1) badge image
+        # 2) real job URL
+        if len(links) < 2:
+            continue
 
-    print(f"📌 Parsed {len(internships)} valid internships")
+        real_job_url = links[-1]  # 🔥 THIS IS THE REAL JOB LINK
+
+        internships.append((company, title, location, real_job_url))
+
+    print(f"📌 Found {len(internships)} valid internships")
 
     today = datetime.now().strftime("%Y-%m-%d")
-    count = 0
+    saved = 0
 
     for company, title, location, link in internships:
         print(f"💾 Saving: {title} @ {company} ({location})")
-        save_job(title, company, location, link, "GitHub Internships List", today)
-        count += 1
+        save_job(
+            title=title,
+            company=company,
+            location=location,
+            link=link,
+            source="GitHub Internships List",
+            date_posted=today
+        )
+        saved += 1
 
-    print(f"✅ GitHub scraping complete. Saved {count} internships.\n")
+    print(f"✅ GitHub scraping complete. Saved {saved} internships.\n")
 
 
 if __name__ == "__main__":

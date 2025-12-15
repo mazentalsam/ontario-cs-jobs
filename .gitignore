@@ -3,3 +3,11 @@ scraper/venv/
 database/jobs.db
 __pycache__/
 *.pyc
+
+# databases
+database/*.db
+
+# python
+__pycache__/
+*.pyc
+venv/
