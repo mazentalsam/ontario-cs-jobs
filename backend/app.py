@@ -32,24 +32,27 @@ def get_jobs():
     conn = get_db_connection()
     c = conn.cursor()
 
-    # Query parameters
     company = request.args.get("company")
     location = request.args.get("location")
     search = request.args.get("search")
-    limit = request.args.get("limit")
-    category = request.args.get("category")  # internship, new grad, co-op (optional future field)
+    limit = request.args.get("limit", type=int)
+    category = request.args.get("category")
 
-    # Base query
     query = """
-            SELECT *
-            FROM jobs
-            WHERE date_posted >= date('now', '-30 days')
-            ORDER BY date_posted DESC
-            """
+        SELECT *
+        FROM jobs
+        WHERE date_posted >= date('now', '-30 days')
+    """
 
     params = []
 
-    # Dynamic filtering
+    # FAANG filter
+    FAANG = ["Amazon", "Google", "Meta", "Apple", "Netflix"]
+
+    if category == "faang":
+        query += " AND company IN (?, ?, ?, ?, ?)"
+        params.extend(FAANG)
+
     if company:
         query += " AND company LIKE ?"
         params.append(f"%{company}%")
@@ -62,7 +65,9 @@ def get_jobs():
         query += " AND title LIKE ?"
         params.append(f"%{search}%")
 
-    # Optional limit
+    # ORDER + LIMIT must come LAST
+    query += " ORDER BY date_posted DESC"
+
     if limit:
         query += " LIMIT ?"
         params.append(limit)
@@ -71,6 +76,7 @@ def get_jobs():
     conn.close()
 
     return jsonify([dict(row) for row in rows])
+
 
 
 # -----------------------------
