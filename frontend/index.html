@@ -1,17 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Ontario CS Jobs</title>
+
+    <!-- Connect CSS -->
+    <link rel="stylesheet" href="style/style.css" />
 </head>
 <body>
 
-    <h1>Ontario CS Jobs</h1>
+    <header>
+        <h1>Ontario CS Jobs</h1>
+        <p class="subtitle">
+            A curated board of Canadian CS internships & co-ops
+        </p>
+    </header>
 
-    <div id="jobs-container">
-        <p>Loading jobs...</p>
-    </div>
+    <section id="controls">
+        <input
+            type="text"
+            id="search-input"
+            placeholder="Search by job title or company..."
+        />
+        <p id="job-count"></p>
+    </section>
 
+    <main id="jobs-container">
+        <!-- Skeleton loaders -->
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+        <div class="skeleton"></div>
+    </main>
+
+    <!-- Connect JS -->
     <script src="script.js"></script>
 </body>
 </html>

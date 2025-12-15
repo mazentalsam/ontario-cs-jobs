@@ -1,0 +1,124 @@
+/* Reset */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f6f7f9;
+    color: #222;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    color: #555;
+    font-size: 0.95rem;
+}
+
+/* Controls */
+#controls {
+    max-width: 900px;
+    margin: 0 auto 24px auto;
+}
+
+#search-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+#job-count {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Jobs */
+#jobs-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Job Card */
+.job-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 18px;
+    border: 1px solid #e1e1e1;
+}
+
+.job-card h3 {
+    margin: 0 0 10px 0;
+}
+
+.job-meta {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.posted {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 10px;
+}
+
+/* Apply Button */
+.apply-link {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 14px;
+    background: #0066cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.apply-link:hover {
+    background: #004999;
+}
+
+/* Error */
+.error {
+    text-align: center;
+    color: red;
+}
+
+/* Skeleton Loader */
+.skeleton {
+    height: 120px;
+    background: linear-gradient(
+        90deg,
+        #eee 25%,
+        #ddd 37%,
+        #eee 63%
+    );
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+    border-radius: 8px;
+    margin-bottom: 18px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}

@@ -40,7 +40,13 @@ def get_jobs():
     category = request.args.get("category")  # internship, new grad, co-op (optional future field)
 
     # Base query
-    query = "SELECT * FROM jobs WHERE 1=1"
+    query = """
+            SELECT *
+            FROM jobs
+            WHERE date_posted >= date('now', '-30 days')
+            ORDER BY date_posted DESC
+            """
+
     params = []
 
     # Dynamic filtering
