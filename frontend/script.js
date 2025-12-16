@@ -4,6 +4,12 @@ let allJobs = [];
 let currentCategory = null;
 let showingSavedOnly = false;
 
+
+const cards = document.querySelectorAll('.job-card');
+cards.forEach((card, index) => {
+  card.style.setProperty('--delay', `${index * 0.15}s`);
+});
+
 /* =========================
    SAVED JOBS (localStorage)
 ========================= */
@@ -224,6 +230,27 @@ document.getElementById("saved-toggle").addEventListener("click", () => {
     renderJobs(allJobs);
 });
 
+
+
+/* =========================
+   UI EFFECTS
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("scroll", () => {
+        document.body.classList.toggle("scrolled", window.scrollY > 20);
+    });
+});
+
+
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('.site-header');
+  if (window.scrollY > 50) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+});
 /* =========================
    INIT
 ========================= */
