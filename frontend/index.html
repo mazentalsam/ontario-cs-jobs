@@ -1,171 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Canadian CS Internships</title>
+  <meta charset="UTF-8" />
+  <title>Canadian CS Internships</title>
 
-    <!-- Mobile responsiveness -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Mobile responsiveness -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style/style.css" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="style/style.css" />
 </head>
 <body>
 
-    <!-- =========================
-         Header
-    ========================== -->
-    <header class="site-header">
-        <div class="header-inner">
-            <h1 class="logo">CS Internships</h1>
+<!-- =========================
+     Header
+========================== -->
+<header class="site-header">
+  <div class="header-inner">
+    <h1 class="logo">CS Internships</h1>
 
-            <nav class="nav">
-                <a href="#jobs">Jobs</a>
-                <a href="#faang">FAANG</a>
-                <a href="#about">About</a>
-            </nav>
+    <nav class="nav">
+      <a href="#jobs">Jobs</a>
+      <a href="#faang">FAANG</a>
+      <a href="#about">About</a>
+    </nav>
 
-            <button class="alerts-btn">🔔 Get Alerts</button>
-        </div>
-    </header>
+    <button class="alerts-btn">🔔 Get Alerts</button>
+  </div>
+</header>
 
-    <!-- =========================
-         Hero
-    ========================== -->
-    <section class="hero">
-       <div class="floating-logos">
-            <img src="logos/google.svg" class="logo-float pos-top-left" />
-            <img src="logos/meta.svg" class="logo-float pos-mid-left" />
-            <img src="logos/netflix.svg" class="logo-float pos-bottom-left" />
+<!-- =========================
+     Hero
+========================== -->
+<section class="hero">
+  <div class="floating-logos">
+    <img src="logos/google.svg" class="logo-float pos-top-left" />
+    <img src="logos/meta.svg" class="logo-float pos-mid-left" />
+    <img src="logos/netflix.svg" class="logo-float pos-bottom-left" />
 
-            <img src="logos/intel.svg" class="logo-float pos-top-right" />
-            <img src="logos/apple.svg" class="logo-float pos-mid-right" />
-            <img src="logos/hp.svg" class="logo-float pos-bottom-right" />
-        </div>
+    <img src="logos/intel.svg" class="logo-float pos-top-right" />
+    <img src="logos/apple.svg" class="logo-float pos-mid-right" />
+    <img src="logos/hp.svg" class="logo-float pos-bottom-right" />
+  </div>
+
+  <div class="hero-inner container">
+    <h2 class="hero-title">
+      Canadian CS Internships <br />— Curated. Current. Clean.
+    </h2>
+
+    <p class="hero-subtitle">
+      A centralized board for verified Canadian computer science internships & co-ops.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#jobs" class="btn-primary">
+        Browse Jobs →
+      </a>
+
+      <a href="#faang" class="btn-secondary">
+        FAANG Internships
+      </a>
+    </div>
+
+    <div class="hero-trust">
+      <span>Verified sources only</span>
+      <span>Updated daily</span>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+     Jobs + Filters
+========================== -->
+<section id="jobs" class="container">
+
+  <!-- =========================
+       Controls / Filters
+  ========================== -->
+  <section id="controls">
+
+    <!-- Primary filters -->
+    <div class="filter-bar">
+
+  <div class="filter-toggles">
+    <button id="all-btn" class="active">All Jobs</button>
+    <button id="faang-btn">FAANG Only</button>
+    <button id="saved-toggle">⭐ Saved (<span id="saved-count">0</span>)</button>
+  </div>
+
+  <div class="filter-controls">
+    <select id="location-filter">
+      <option value="">All locations</option>
+      <option value="remote">Remote</option>
+      <option value="toronto">Toronto</option>
+      <option value="vancouver">Vancouver</option>
+      <option value="waterloo">Waterloo</option>
+      <option value="ottawa">Ottawa</option>
+    </select>
+
+    <select id="role-filter">
+      <option value="">All roles</option>
+      <option value="software">Software Engineer</option>
+      <option value="backend">Backend</option>
+      <option value="frontend">Frontend</option>
+      <option value="data">Data / ML</option>
+      <option value="security">Security</option>
+    </select>
+
+    <select id="time-filter">
+      <option value="">Any time</option>
+      <option value="1">Last 24 hours</option>
+      <option value="3">Last 3 days</option>
+      <option value="7">Last 7 days</option>
+    </select>
+
+    <label class="checkbox-filter">
+      <input type="checkbox" id="unapplied-only" />
+      Unapplied
+    </label>
+  </div>
+
+</div>
 
 
-        <div class="hero-inner container">
-            <h2 class="hero-title">
-                Canadian CS Internships  <br>— Curated. Current. Clean.
-            </h2>
+    <!-- Search -->
+    <input
+      type="text"
+      id="search-input"
+      placeholder="Search by job title or company..."
+    />
 
-            <p class="hero-subtitle">
-                A centralized board for verified Canadian computer science internships & co-ops.
-            </p>
+    <p id="job-count"></p>
+  </section>
 
-            <div class="hero-actions">
-                <a href="#jobs" class="btn-primary">
-                    Browse Jobs →
-                </a>
+  <!-- =========================
+       Jobs Container
+  ========================== -->
+  <main id="jobs-container">
+    <!-- Skeleton loaders -->
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+  </main>
+</section>
 
-                <a href="#faang" class="btn-secondary">
-                    FAANG Internships
-                </a>
-            </div>
+<!-- =========================
+     Footer
+========================== -->
+<footer class="site-footer" id="about">
+  <div class="footer-inner">
+    <p>
+      © 2025 Canadian CS Internships. All rights reserved.
+    </p>
+  </div>
+</footer>
 
-            <div class="hero-trust">
-                <span>Verified sources only</span>
-                <span>Updated daily</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- =========================
-         Controls / Filters
-    ========================== -->
-    <section id="jobs" class="container">
-        <section id="controls">
-            <div class="filters">
-                <button id="all-btn" class="active">
-                    All Jobs
-                </button>
-
-                <button id="faang-btn">
-                    FAANG Only
-                </button>
-
-                <button id="saved-toggle">
-                    ⭐ Saved (<span id="saved-count">0</span>)
-                </button>
-            </div>
-
-            <input
-                type="text"
-                id="search-input"
-                placeholder="Search by job title or company..."
-            />
-
-            <p id="job-count"></p>
-        </section>
-
-        <!-- =========================
-             Jobs Container
-        ========================== -->
-        <main id="jobs-container">
-            <!-- Skeleton loaders -->
-            <div class="skeleton"></div>
-            <div class="skeleton"></div>
-            <div class="skeleton"></div>
-        </main>
-    </section>
-
-    <!-- =========================
-         Footer
-    ========================== -->
-    <footer class="site-footer" id="about">
-        <div class="footer-inner">
-            <div class="footer-grid">
-                <div>
-                    <h4>About</h4>
-                    <p>
-                        A centralized platform for verified Canadian computer science internships and co-ops.
-                    </p>
-                </div>
-
-                <div>
-                    <h4>Data Sources</h4>
-                    <ul>
-                        <li>Company career pages</li>
-                        <li>University job boards</li>
-                        <li>Official job postings</li>
-                    </ul>
-                </div>
-
-                <div id="faang">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#jobs">Browse Jobs</a></li>
-                        <li><a href="#faang">FAANG Internships</a></li>
-                        <li><a href="#about">About Us</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4>Contact</h4>
-                    <p>
-                        <a href="mailto:hello@canadiancsjobs.com">
-                            hello@canadiancsjobs.com
-                        </a>
-                    </p>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <p>
-                    Not affiliated with listed companies. All job postings are sourced from official company career
-                    pages and verified sources. Jobs auto-expire after 30 days.
-                </p>
-                <p>
-                    © 2025 Canadian CS Internships. All rights reserved.
-                </p>
-            </div>
-        </div>
-    </footer>
-    
-
-    <!-- =========================
-         Scripts
-    ========================== -->
-    <script src="script.js"></script>
+<!-- =========================
+     Scripts
+========================== -->
+<script src="script.js"></script>
 </body>
 </html>

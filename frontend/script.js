@@ -1,14 +1,18 @@
 const API_URL = "http://localhost:5000/jobs";
 
 let allJobs = [];
-let currentCategory = null;
 let showingSavedOnly = false;
+let currentCategory = null;
 
+/* =========================
+   ACTIVE BUTTON HANDLING
+========================= */
 
-const cards = document.querySelectorAll('.job-card');
-cards.forEach((card, index) => {
-  card.style.setProperty('--delay', `${index * 0.15}s`);
-});
+function setActiveButton(id) {
+    document.querySelectorAll(".filter-toggles button")
+        .forEach(btn => btn.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
 
 /* =========================
    SAVED JOBS (localStorage)
@@ -75,7 +79,7 @@ function daysAgo(dateString) {
 }
 
 function isNewJob(dateString) {
-    return daysAgo(dateString) <= 3;
+    return daysAgo(dateString) <= 1;
 }
 
 /* =========================
@@ -92,6 +96,8 @@ async function loadJobs(category = null) {
     `;
 
     let url = API_URL;
+    currentCategory = category;
+
     if (category === "faang") {
         url += "?category=faang";
     }
@@ -99,11 +105,62 @@ async function loadJobs(category = null) {
     try {
         const res = await fetch(url);
         allJobs = await res.json();
-        renderJobs(allJobs);
+        applyAllFilters();
     } catch (err) {
         container.innerHTML = "<p>Error loading jobs.</p>";
         console.error(err);
     }
+}
+
+/* =========================
+   APPLY ALL FILTERS
+========================= */
+
+function applyAllFilters() {
+    let filtered = [...allJobs];
+
+    const search = document.getElementById("search-input").value.toLowerCase();
+    const location = document.getElementById("location-filter")?.value || "";
+    const role = document.getElementById("role-filter")?.value || "";
+    const time = document.getElementById("time-filter")?.value || "";
+    const unappliedOnly = document.getElementById("unapplied-only")?.checked;
+
+    if (showingSavedOnly) {
+        const saved = getSavedJobs();
+        filtered = filtered.filter(j => saved.includes(j.link));
+    }
+
+    if (unappliedOnly) {
+        const applied = getAppliedJobs();
+        filtered = filtered.filter(j => !applied.includes(j.link));
+    }
+
+    if (search) {
+        filtered = filtered.filter(j =>
+            j.title.toLowerCase().includes(search) ||
+            j.company.toLowerCase().includes(search)
+        );
+    }
+
+    if (location) {
+        filtered = filtered.filter(j =>
+            j.location.toLowerCase().includes(location)
+        );
+    }
+
+    if (role) {
+        filtered = filtered.filter(j =>
+            j.title.toLowerCase().includes(role)
+        );
+    }
+
+    if (time) {
+        filtered = filtered.filter(j =>
+            daysAgo(j.date_posted) <= parseInt(time)
+        );
+    }
+
+    renderJobs(filtered);
 }
 
 /* =========================
@@ -115,24 +172,14 @@ function renderJobs(jobs) {
     const count = document.getElementById("job-count");
 
     container.innerHTML = "";
+    count.innerText = `Showing ${jobs.length} internships`;
 
-    let jobsToRender = jobs;
-
-    if (showingSavedOnly) {
-        const saved = getSavedJobs();
-        jobsToRender = jobs.filter(j => saved.includes(j.link));
-    }
-
-    count.innerText = `Showing ${jobsToRender.length} internships`;
-
-    if (jobsToRender.length === 0) {
-        container.innerHTML = showingSavedOnly
-            ? "<p>No saved jobs yet.</p>"
-            : "<p>No jobs found.</p>";
+    if (jobs.length === 0) {
+        container.innerHTML = "<p>No jobs found.</p>";
         return;
     }
 
-    jobsToRender.forEach(job => {
+    jobs.forEach(job => {
         const saved = isJobSaved(job.link);
         const applied = isJobApplied(job.link);
         const isNew = isNewJob(job.date_posted);
@@ -146,7 +193,6 @@ function renderJobs(jobs) {
                     ${job.title}
                     ${isNew ? `<span class="badge new">NEW</span>` : ""}
                 </h3>
-
                 <button class="save-btn ${saved ? "saved" : ""}">
                     ${saved ? "★" : "☆"}
                 </button>
@@ -156,40 +202,28 @@ function renderJobs(jobs) {
                 <strong>${job.company}</strong> · ${job.location}
             </div>
 
-            <div class="job-meta">
-                Source: ${job.source}
-            </div>
-
             <div class="posted">
                 Posted ${daysAgo(job.date_posted)} days ago
             </div>
 
             <div class="job-actions">
-                <a
-                    class="apply-link"
-                    href="${job.link}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
+                <a class="apply-link" href="${job.link}" target="_blank">
                     View Posting →
                 </a>
-
                 <button class="applied-btn ${applied ? "applied" : ""}">
                     ${applied ? "✓ Applied" : "Mark Applied"}
                 </button>
             </div>
         `;
 
-        // Save toggle
         card.querySelector(".save-btn").addEventListener("click", () => {
             toggleSaveJob(job.link);
-            renderJobs(jobs);
+            applyAllFilters();
         });
 
-        // Applied toggle
         card.querySelector(".applied-btn").addEventListener("click", () => {
             toggleAppliedJob(job.link);
-            renderJobs(jobs);
+            applyAllFilters();
         });
 
         container.appendChild(card);
@@ -197,60 +231,54 @@ function renderJobs(jobs) {
 }
 
 /* =========================
-   SEARCH
-========================= */
-
-document.getElementById("search-input").addEventListener("input", e => {
-    const q = e.target.value.toLowerCase();
-
-    const filtered = allJobs.filter(job =>
-        job.title.toLowerCase().includes(q) ||
-        job.company.toLowerCase().includes(q)
-    );
-
-    renderJobs(filtered);
-});
-
-/* =========================
-   FILTER BUTTONS
+   FILTER EVENTS
 ========================= */
 
 document.getElementById("all-btn").addEventListener("click", () => {
     showingSavedOnly = false;
+    setActiveButton("all-btn");
     loadJobs();
 });
 
 document.getElementById("faang-btn").addEventListener("click", () => {
     showingSavedOnly = false;
+    setActiveButton("faang-btn");
     loadJobs("faang");
 });
 
 document.getElementById("saved-toggle").addEventListener("click", () => {
     showingSavedOnly = !showingSavedOnly;
-    renderJobs(allJobs);
+    setActiveButton("saved-toggle");
+    applyAllFilters();
 });
 
+document.querySelectorAll(
+    "#search-input, #location-filter, #role-filter, #time-filter, #unapplied-only"
+).forEach(el => {
+    el.addEventListener("input", applyAllFilters);
+    el.addEventListener("change", applyAllFilters);
+});
+
+document.querySelectorAll(".filter-controls select").forEach(select => {
+  select.addEventListener("change", () => {
+    if (select.value) {
+      select.classList.add("active");
+    } else {
+      select.classList.remove("active");
+    }
+  });
+});
 
 
 /* =========================
-   UI EFFECTS
+   HEADER SCROLL EFFECT
 ========================= */
 
-document.addEventListener("DOMContentLoaded", () => {
-    window.addEventListener("scroll", () => {
-        document.body.classList.toggle("scrolled", window.scrollY > 20);
-    });
+window.addEventListener("scroll", () => {
+    const header = document.querySelector(".site-header");
+    header.classList.toggle("scrolled", window.scrollY > 50);
 });
 
-
-window.addEventListener('scroll', () => {
-  const header = document.querySelector('.site-header');
-  if (window.scrollY > 50) {
-    header.classList.add('scrolled');
-  } else {
-    header.classList.remove('scrolled');
-  }
-});
 /* =========================
    INIT
 ========================= */
