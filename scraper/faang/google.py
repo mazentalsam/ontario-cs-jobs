@@ -1,41 +1,15 @@
 import requests
-import sqlite3
-import os
 import json
 from datetime import datetime
 from bs4 import BeautifulSoup
+from database.db import save_job
+
 
 # ---------------------------
-# DB connection helper
-# ---------------------------
-def get_db_connection():
-    db_path = os.path.join(os.path.dirname(__file__), "..", "database", "jobs.db")
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-# ---------------------------
-# Save job to DB
-# ---------------------------
-def save_job(title, company, location, link, source, date_posted):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    try:
-        cursor.execute("""
-            INSERT OR IGNORE INTO jobs (title, company, location, link, source, date_posted)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (title, company, location, link, source, date_posted))
-        conn.commit()
-    except Exception as e:
-        print("❌ DB insert error:", e)
-    finally:
-        conn.close()
-
-# ---------------------------
-# Google scraper (NEXT.js data extraction)
+# Google Careers scraper (Next.js JSON extraction)
 # ---------------------------
 def scrape_google():
-    print("\n🔍 Scraping Google Careers...")
+    print("\n🔍 Scraping Google Careers internships...")
 
     url = "https://careers.google.com/jobs/results/?employment_type=INTERN"
 
@@ -55,53 +29,71 @@ def scrape_google():
 
     soup = BeautifulSoup(response.text, "html.parser")
 
-    # Google embeds data inside a JSON script tag
+    # Google embeds all job data inside __NEXT_DATA__
     script_tag = soup.find("script", {"id": "__NEXT_DATA__"})
-
-    if not script_tag:
-        print("❌ Could not find NEXT_DATA JSON script")
+    if not script_tag or not script_tag.string:
+        print("❌ Could not find NEXT_DATA JSON")
         return
 
     try:
         data = json.loads(script_tag.string)
     except Exception as e:
-        print("❌ Failed to parse JSON:", e)
+        print("❌ Failed to parse NEXT_DATA JSON:", e)
         return
 
-    # Navigate the Next.js structure
+    # Navigate Next.js structure
     try:
         jobs = data["props"]["pageProps"]["jobSearchResponse"]["jobs"]
     except KeyError:
         print("❌ Could not locate job data in JSON")
         return
 
-    print(f"📌 Found {len(jobs)} internship jobs")
+    print(f"📌 Found {len(jobs)} internship postings")
 
     today = datetime.now().strftime("%Y-%m-%d")
-    count_saved = 0
+    saved = 0
+
+    CS_KEYWORDS = [
+        "software", "engineer", "swe",
+        "developer", "data", "ml", "intern"
+    ]
 
     for job in jobs:
-        title = job.get("title", "").strip()
-        company = "Google"
-        locations = job.get("locations", [])
-        location = ", ".join(locations) if locations else "Unknown"
-        job_id = job.get("id", "")
-        link = f"https://careers.google.com/jobs/results/{job_id}/"
-
-        # Filter for CS / SWE roles
-        title_lower = title.lower()
-        keywords = ["software", "engineer", "swe", "developer", "data", "ml", "intern"]
-
-        if not any(k in title_lower for k in keywords):
+        title = (job.get("title") or "").strip()
+        if not title:
             continue
+
+        title_lower = title.lower()
+        if not any(k in title_lower for k in CS_KEYWORDS):
+            continue
+
+        locations = job.get("locations") or []
+        location = ", ".join(locations) if locations else "Unknown"
+
+        job_id = job.get("id")
+        if not job_id:
+            continue
+
+        link = f"https://careers.google.com/jobs/results/{job_id}/"
 
         print(f"💾 Saving: {title} @ Google ({location})")
 
-        save_job(title, company, location, link, "Google Careers", today)
-        count_saved += 1
+        save_job(
+            title=title,
+            company="Google",
+            location=location,
+            link=link,
+            source="Google Careers",
+            date_posted=today
+        )
 
-    print(f"✅ Google scraping complete. Saved {count_saved} internships.\n")
+        saved += 1
 
+    print(f"✅ Google scraping complete. Saved {saved} internships.\n")
+
+
+# ---------------------------
 # Run directly
+# ---------------------------
 if __name__ == "__main__":
     scrape_google()

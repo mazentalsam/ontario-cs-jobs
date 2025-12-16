@@ -122,3 +122,106 @@ header h1 {
         background-position: -100% 0;
     }
 }
+
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.filters button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #eee;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.filters button.active {
+    background: #0066cc;
+    color: white;
+    border-color: #0066cc;
+}
+
+.job-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.save-btn {
+    background: transparent;
+    border: 1px solid #444;
+    color: #aaa;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.save-btn.saved {
+    color: #22c55e;
+    border-color: #22c55e;
+}
+
+
+.badge.new {
+    background: #22c55e;
+    color: #000;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    margin-left: 8px;
+}
+
+.applied-btn {
+    border: 1px solid #444;
+    background: transparent;
+    color: #aaa;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.applied-btn.applied {
+    color: #38bdf8;
+    border-color: #38bdf8;
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.job-header h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.3;
+}
+
+/* Save button (top-right) */
+.job-header .save-btn {
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #888;
+    font-size: 16px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.job-header .save-btn:hover {
+    border-color: #22c55e;
+    color: #22c55e;
+}
+
+.job-header .save-btn.saved {
+    border-color: #22c55e;
+    color: #22c55e;
+}

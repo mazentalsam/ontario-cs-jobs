@@ -1,6 +1,7 @@
 import requests
 from datetime import datetime
-from utils.db import save_job
+from database.db import save_job
+
 
 # ---------------------------
 # Amazon JSON API scraper (Canada only)
@@ -29,10 +30,11 @@ def scrape_amazon():
 
     data = response.json()
     jobs = data.get("jobs", [])
+
     print(f"📌 Found {len(jobs)} Amazon postings in API response")
 
     today = datetime.now().strftime("%Y-%m-%d")
-    count_saved = 0
+    saved = 0
 
     # CS-related keywords
     CS_KEYWORDS = [
@@ -40,7 +42,7 @@ def scrape_amazon():
         "sde", "data", "machine", "ml", "intern"
     ]
 
-    # 🇨🇦 Canada location whitelist (cities + provinces)
+    # 🇨🇦 Canada location whitelist
     CANADA_KEYWORDS = [
         "canada",
         "toronto", "vancouver", "montreal", "ottawa",
@@ -51,9 +53,12 @@ def scrape_amazon():
     ]
 
     for job in jobs:
-        title = job.get("title", "").strip()
-        location = job.get("normalized_location", "").strip()
-        link = "https://www.amazon.jobs" + job.get("job_path", "")
+        title = (job.get("title") or "").strip()
+        location = (job.get("normalized_location") or "").strip()
+        job_path = job.get("job_path") or ""
+
+        if not title or not job_path:
+            continue
 
         title_lower = title.lower()
         location_lower = location.lower()
@@ -66,6 +71,8 @@ def scrape_amazon():
         if not any(c in location_lower for c in CANADA_KEYWORDS):
             continue
 
+        link = "https://www.amazon.jobs" + job_path
+
         print(f"💾 Saving: {title} ({location})")
 
         save_job(
@@ -77,9 +84,9 @@ def scrape_amazon():
             date_posted=today
         )
 
-        count_saved += 1
+        saved += 1
 
-    print(f"✅ Amazon scraping complete. Saved {count_saved} jobs.\n")
+    print(f"✅ Amazon scraping complete. Saved {saved} jobs.\n")
 
 
 # ---------------------------

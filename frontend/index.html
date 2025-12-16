@@ -9,6 +9,9 @@
 </head>
 <body>
 
+    <!-- =========================
+         Header
+    ========================== -->
     <header>
         <h1>Ontario CS Jobs</h1>
         <p class="subtitle">
@@ -16,15 +19,37 @@
         </p>
     </header>
 
+    <!-- =========================
+         Controls / Filters
+    ========================== -->
     <section id="controls">
+        <div class="filters">
+            <button id="all-btn" class="active">
+                All Jobs
+            </button>
+
+            <button id="faang-btn">
+                FAANG Only
+            </button>
+
+            <!-- NEW: Saved Jobs toggle -->
+            <button id="saved-toggle">
+                ⭐ Saved (<span id="saved-count">0</span>)
+            </button>
+        </div>
+
         <input
             type="text"
             id="search-input"
             placeholder="Search by job title or company..."
         />
+
         <p id="job-count"></p>
     </section>
 
+    <!-- =========================
+         Jobs Container
+    ========================== -->
     <main id="jobs-container">
         <!-- Skeleton loaders -->
         <div class="skeleton"></div>
@@ -32,7 +57,9 @@
         <div class="skeleton"></div>
     </main>
 
-    <!-- Connect JS -->
+    <!-- =========================
+         Scripts
+    ========================== -->
     <script src="script.js"></script>
 </body>
 </html>
