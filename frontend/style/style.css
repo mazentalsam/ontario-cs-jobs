@@ -3,7 +3,7 @@
   --bg: #0b1220;
   --surface: #12192e;
   --card: #1b2546;
-  --border: #2a3a6d;
+--border: rgba(255,255,255,0.06);
 
   --text: #e5e7eb;
   --muted: #7f8ea3;
@@ -251,8 +251,8 @@ body::before {
   line-height: 1.12;
   margin-bottom: 16px;
   color: var(--text);
-  letter-spacing: -0.02em;
-  text-shadow: 0 0 10px rgba(15,169,116,0.32);
+  letter-spacing: -0.0015em;
+  text-shadow: 0 0 10px rgba(15,169,116,0.25);
 }
 
 .hero-subtitle {
@@ -448,22 +448,35 @@ body::before {
 
 /* Job Cards */
 .job-card {
-  background: var(--card);
-  border-radius: var(--radius);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(30,41,82,0.95),
+      rgba(20,30,60,0.85)
+    );
+
+  border-radius: 18px;
   padding: 24px;
-  margin: 0;
-  border: 1px solid var(--border);
+
+  border: none;
+
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.45),
+    inset 0 0 0 1px rgba(255,255,255,0.03);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  user-select: none;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.35);
-  transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
-  user-select: none;
-  transform: translateY(30px);
-  opacity: 1; /* key fix */
-  animation: cardFadeInUp 0.7s ease forwards;
-  animation-delay: var(--delay, 0s);
 }
+
+.job-card .apply-link {
+  margin-top: auto;
+}
+
 
 /* Hover/focus */
 .job-card:hover,
@@ -471,6 +484,11 @@ body::before {
   border-color: var(--primary);
   box-shadow: 0 15px 40px var(--shadow-primary);
   transform: translateY(0) scale(1.03);
+}
+.job-card-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 /* Job Header */
@@ -911,6 +929,18 @@ body::before {
   transform: scale(1.05);
   outline: none;
 }
+.job-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.job-card-content {
+  flex-grow: 1;
+}
+
+.apply-link {
+  margin-top: 22px;
+}
 
 .applied-btn {
   background: transparent;
@@ -1141,4 +1171,386 @@ body::before {
 :focus-visible {
   outline-offset: 3px;
   outline: 3px solid var(--primary);
+}
+
+/* =========================
+   SECTION CONTAINERS
+========================= */
+
+.section-wrap {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  padding: 64px 64px;
+  border-radius: 28px;
+
+  /* NO BOX — just atmosphere */
+  background:
+    radial-gradient(
+      1000px 420px at 50% -30%,
+      rgba(16,185,129,0.08),
+      transparent 70%
+    );
+}
+
+.pricing-section .section-wrap {
+  background: none;
+}
+
+
+.page-index .preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+/* WHY section gets more width */
+.page-index #why .section-wrap {
+  max-width: 1400px;
+}
+
+@media (max-width: 900px) {
+  .page-index .preview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.faang-pill {
+  display: inline-block;
+  margin-left: 14px;
+  padding: 6px 16px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, #10b981, #059669);
+  color: #022c22;
+  box-shadow:
+    0 0 24px rgba(16,185,129,0.55);
+}
+.faang-pill {
+  display: inline-block;
+  margin-left: 14px;
+  padding: 6px 16px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, #10b981, #059669);
+  color: #022c22;
+  box-shadow:
+    0 0 24px rgba(16,185,129,0.55);
+}
+.page-index #why .job-card {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20,30,60,0.7),
+      rgba(15,23,42,0.6)
+    );
+
+
+  box-shadow:
+    0 14px 32px rgba(0,0,0,0.4),
+    inset 0 0 0 1px rgba(255,255,255,0.025);
+}
+
+.page-index #why .job-card:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.55),
+    0 0 26px rgba(16,185,129,0.25);
+}
+
+.page-index .section-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+@media (max-width: 1200px) {
+  .section-wrap {
+    padding: 56px 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-wrap {
+    padding: 40px 24px;
+  }
+}
+
+
+
+#why .preview-grid {
+  justify-content: center;
+}
+#why::after {
+  content: "";
+  display: block;
+  width: 120px;
+  height: 2px;
+  margin: 48px auto 32px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  opacity: 0.4;
+}
+
+
+/* Why section grid */
+.page-index .why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  margin-top: 36px;
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+  .page-index .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .page-index .why-grid {
+    grid-template-columns: 1fr;
+  }
+}
+ /* =========================
+   PRICING SECTION (ON-THEME)
+========================= */
+
+.pricing-section {
+  padding: 160px 24px;
+  text-align: center;
+  background:
+    radial-gradient(
+      1200px 600px at 50% -10%,
+      rgba(16,185,129,0.08),
+      transparent 70%
+    ),
+    var(--bg);
+}
+
+.pricing-title {
+  font-size: clamp(3.2rem, 6vw, 3.8rem);
+  font-weight: 900;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+.pricing-title span {
+  color: var(--primary);
+}
+
+.pricing-subtitle {
+  color: var(--muted);
+  max-width: 720px;
+  margin: 0 auto 96px;
+  font-size: 1.15rem;
+  line-height: 1.7;
+}
+
+/* =========================
+   GRID (BIGGER)
+========================= */
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 440px));
+  gap: 64px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* =========================
+   BASE PLAN CARD
+========================= */
+
+.plan-card {
+  position: relative;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20,30,60,0.85),
+      rgba(15,23,42,0.8)
+    );
+
+  border-radius: 28px;
+  padding: 64px 56px;
+  text-align: left;
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.55),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 40px 110px rgba(0,0,0,0.65),
+    inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+/* Title */
+.plan-card h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+/* Price */
+.plan-price {
+  font-size: 3.4rem;
+  font-weight: 900;
+  margin: 20px 0 10px;
+}
+
+/* /month */
+.plan-price span {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-left: 8px;
+}
+
+/* Description */
+.plan-description {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 20px 0 40px;
+}
+
+/* Features */
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.plan-features li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.plan-features li::before {
+  content: "✓";
+  color: var(--primary);
+  font-weight: 900;
+}
+
+/* Button */
+.plan-card .btn-primary {
+  margin-top: 48px;
+  width: 100%;
+  padding: 18px 0;
+  font-size: 1.1rem;
+  border-radius: 999px;
+}
+
+/* =========================
+   PREMIUM PLAN (ON THEME)
+========================= */
+
+.plan-card.premium {
+  transform: translateY(-24px);
+
+  background:
+    radial-gradient(
+      900px 450px at 50% -20%,
+      rgba(16,185,129,0.18),
+      transparent 70%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(20,30,60,0.95),
+      rgba(15,23,42,0.9)
+    );
+
+  box-shadow:
+    0 50px 140px rgba(16,185,129,0.35),
+    0 0 120px rgba(16,185,129,0.25),
+    inset 0 0 0 1px rgba(255,255,255,0.08);
+}
+
+.plan-card.premium:hover {
+  transform: translateY(-32px);
+  box-shadow:
+    0 65px 180px rgba(16,185,129,0.45),
+    0 0 160px rgba(16,185,129,0.35);
+}
+
+/* Premium price */
+.plan-card.premium .plan-price {
+  color: var(--primary);
+}
+
+/* Premium button */
+.plan-card.premium .btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-dark)
+  );
+
+  color: #022c22;
+  font-weight: 900;
+
+  box-shadow:
+    0 20px 60px rgba(16,185,129,0.55);
+}
+
+.plan-card.premium .btn-primary:hover {
+  transform: scale(1.06);
+  box-shadow:
+    0 30px 90px rgba(16,185,129,0.7);
+}
+
+/* =========================
+   BADGE
+========================= */
+
+.plan-badge {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: var(--primary);
+  color: #022c22;
+
+  padding: 8px 22px;
+  border-radius: 999px;
+
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+
+  box-shadow:
+    0 12px 36px rgba(16,185,129,0.6);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 900px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .plan-card.premium {
+    transform: none;
+  }
 }

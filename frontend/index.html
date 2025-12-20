@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <title>Canadian CS Internships</title>
 
-  <!-- Mobile responsiveness -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="style/style.css" />
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="style/style.css">
 </head>
-<body>
+
+<body class="page-index">
 
 <!-- =========================
      Header
@@ -20,12 +20,12 @@
     <h1 class="logo">CS Internships</h1>
 
     <nav class="nav">
-      <a href="#jobs">Jobs</a>
-      <a href="#faang">FAANG</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="#why">Why Us</a>
       <a href="#about">About</a>
     </nav>
 
-    <button class="alerts-btn">🔔 Get Alerts</button>
+    <a href="jobs.html" class="alerts-btn">Get Access</a>
   </div>
 </header>
 
@@ -53,12 +53,12 @@
     </p>
 
     <div class="hero-actions">
-      <a href="#jobs" class="btn-primary">
+      <a href="jobs.html" class="btn-primary">
         Browse Jobs →
       </a>
 
-      <a href="#faang" class="btn-secondary">
-        FAANG Internships
+      <a href="#preview" class="btn-secondary">
+        See Opportunities
       </a>
     </div>
 
@@ -70,78 +70,207 @@
 </section>
 
 <!-- =========================
-     Jobs + Filters
+     PREVIEW SECTION
 ========================== -->
-<section id="jobs" class="container">
+<section id="preview" class="container">
+  <div class="section-wrap">
 
-  <!-- =========================
-       Controls / Filters
-  ========================== -->
-  <section id="controls">
+    <h2 class="hero-title" style="font-size: 2.2rem;">
+      Hand-picked internship opportunities
+      <span class="faang-pill">FAANG • UNICORNS • TOP CANADIAN</span>
+    </h2>
 
-    <!-- Primary filters -->
-    <div class="filter-bar">
+    <p class="hero-subtitle" style="max-width: 720px;">
+      A preview of the roles members see every day — including FAANG,
+      unicorns, and top Canadian companies.
+    </p>
 
-  <div class="filter-toggles">
-    <button id="all-btn" class="active">All Jobs</button>
-    <button id="faang-btn">FAANG Only</button>
-    <button id="saved-toggle">⭐ Saved (<span id="saved-count">0</span>)</button>
+    <!-- =========================
+         PREVIEW GRID
+    ========================== -->
+    <div class="preview-grid">
+
+      <!-- Card 1 (normal) -->
+      <div class="job-card">
+        <div class="job-header">
+          <h3>Software Engineering Intern</h3>
+          <span class="badge new">NEW</span>
+        </div>
+
+        <div class="job-meta">Google · Toronto / Remote</div>
+        <div class="posted">Posted 2 days ago</div>
+
+        <a href="#" class="apply-link">View Full Listing →</a>
+      </div>
+
+      <!-- ✅ Card 2 (FEATURED — THIS IS THE IMPORTANT PART) -->
+      <div class="job-card featured">
+        <div class="job-header">
+          <h3>Backend Developer Intern</h3>
+          <span class="badge new">NEW</span>
+        </div>
+
+        <div class="job-meta">Shopify · Remote (Canada)</div>
+        <div class="posted">Posted 1 day ago</div>
+
+        <a href="#" class="apply-link">View Full Listing →</a>
+      </div>
+
+      <!-- Card 3 (normal) -->
+      <div class="job-card">
+        <div class="job-header">
+          <h3>Data / ML Intern</h3>
+        </div>
+
+        <div class="job-meta">Amazon · Vancouver</div>
+        <div class="posted">Posted 3 days ago</div>
+
+        <a href="#" class="apply-link">View Full Listing →</a>
+      </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div style="margin-top: 56px; text-align: center;">
+      <p class="hero-subtitle" style="margin-bottom: 18px;">
+        Full access required to view all listings
+      </p>
+
+      <a href="jobs.html" class="btn-primary cta-main">
+        Unlock 200+ FAANG & CS Internships →
+      </a>
+
+      <p class="preview-lock">
+        Updated daily • No junk listings • Cancel anytime
+      </p>
+    </div>
+
   </div>
+</section>
 
-  <div class="filter-controls">
-    <select id="location-filter">
-      <option value="">All locations</option>
-      <option value="remote">Remote</option>
-      <option value="toronto">Toronto</option>
-      <option value="vancouver">Vancouver</option>
-      <option value="waterloo">Waterloo</option>
-      <option value="ottawa">Ottawa</option>
-    </select>
+<!-- =========================
+     WHY SECTION
+========================== -->
+<section id="why" class="container">
+  <div class="section-wrap">
 
-    <select id="role-filter">
-      <option value="">All roles</option>
-      <option value="software">Software Engineer</option>
-      <option value="backend">Backend</option>
-      <option value="frontend">Frontend</option>
-      <option value="data">Data / ML</option>
-      <option value="security">Security</option>
-    </select>
+    <h2 class="hero-title" style="font-size: 2.2rem;">
+      Why students use CS Internships
+    </h2>
 
-    <select id="time-filter">
-      <option value="">Any time</option>
-      <option value="1">Last 24 hours</option>
-      <option value="3">Last 3 days</option>
-      <option value="7">Last 7 days</option>
-    </select>
+    <p class="hero-subtitle">
+      We remove noise, save time, and surface real opportunities — faster.
+    </p>
 
-    <label class="checkbox-filter">
-      <input type="checkbox" id="unapplied-only" />
-      Unapplied
-    </label>
+    <div class="why-grid">
+
+
+      <div class="job-card">
+        <h3>🚫 No Junk Listings</h3>
+        <p>Only verified CS internships. No repost spam or expired roles.</p>
+      </div>
+
+      <div class="job-card">
+        <h3>⚡ Daily Updates</h3>
+        <p>New roles added every day so you never miss early postings.</p>
+      </div>
+
+      <div class="job-card">
+        <h3>⭐ Save & Track</h3>
+        <p>Save jobs, mark applied, and stay organized during recruiting.</p>
+      </div>
+
+      <div class="job-card">
+        <h3>🎯 FAANG & Top Companies</h3>
+        <p>Instant filters for FAANG, unicorns, and high-signal companies.</p>
+      </div>
+
+    </div>
+
+    <div style="text-align:center; margin-top: 60px;">
+      <a href="jobs.html" class="btn-primary cta-main">
+        Get Full Access →
+      </a>
+    </div>
+
   </div>
+</section>
+<!-- =========================
+     PRICING / ACCESS SECTION
+========================== -->
+<section id="pricing" class="pricing-section container">
+  <div class="section-wrap">
 
-</div>
+    <h2 class="pricing-title">
+      Choose Your Access
+    </h2>
 
+    <p class="pricing-subtitle">
+      Start free. Upgrade when you want full visibility.
+      No hidden fees. Cancel anytime.
+    </p>
 
-    <!-- Search -->
-    <input
-      type="text"
-      id="search-input"
-      placeholder="Search by job title or company..."
-    />
+    <div class="pricing-grid">
 
-    <p id="job-count"></p>
-  </section>
+      <!-- =====================
+           FREE PLAN
+      ====================== -->
+      <div class="plan-card">
+        <h3>Free</h3>
 
-  <!-- =========================
-       Jobs Container
-  ========================== -->
-  <main id="jobs-container">
-    <!-- Skeleton loaders -->
-    <div class="skeleton"></div>
-    <div class="skeleton"></div>
-    <div class="skeleton"></div>
-  </main>
+        <div class="plan-price">$0</div>
+        <p class="plan-note">Forever</p>
+
+        <p class="plan-description">
+          Explore the platform and preview available internships.
+        </p>
+
+        <ul class="plan-features">
+          <li>Preview selected internship listings</li>
+          <li>Verified companies only</li>
+          <li>Clean, distraction-free browsing</li>
+        </ul>
+
+        <a href="jobs.html" class="btn-primary">
+          Get Started Free
+        </a>
+      </div>
+
+      <!-- =====================
+           PREMIUM PLAN
+      ====================== -->
+      <div class="plan-card premium">
+
+        <span class="plan-badge">MOST POPULAR</span>
+
+        <h3>Premium</h3>
+
+        <div class="plan-price">$4.99 <span class="plan-unit">/ month</span></div>
+
+        <p class="plan-description">
+          See all internship opportunities — updated daily.
+        </p>
+
+        <ul class="plan-features">
+          <li>Full access to all job listings</li>
+          <li>Daily refreshed postings</li>
+          <li>FAANG, unicorns & top Canadian companies</li>
+          <li>No spam or expired roles</li>
+          <li>Cancel anytime</li>
+        </ul>
+
+        <a href="#" class="btn-primary">
+          Unlock Full Access →
+        </a>
+      </div>
+
+    </div>
+
+    <p class="pricing-footnote">
+      Updated daily • No junk listings • Cancel anytime
+    </p>
+
+  </div>
 </section>
 
 <!-- =========================
@@ -149,15 +278,9 @@
 ========================== -->
 <footer class="site-footer" id="about">
   <div class="footer-inner">
-    <p>
-      © 2025 Canadian CS Internships. All rights reserved.
-    </p>
+    <p>© 2025 Canadian CS Internships. All rights reserved.</p>
   </div>
 </footer>
 
-<!-- =========================
-     Scripts
-========================== -->
-<script src="script.js"></script>
 </body>
 </html>

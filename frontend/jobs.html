@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Browse Jobs · Canadian CS Internships</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="stylesheet" href="style/style.css">
+
+</head>
+<body>
+
+<!-- =========================
+     Header
+========================== -->
+<header class="site-header">
+  <div class="header-inner">
+    <h1 class="logo">CS Internships</h1>
+
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="jobs.html" class="active">Jobs</a>
+      <a href="#about">About</a>
+    </nav>
+
+    <button class="alerts-btn">🔔 Get Alerts</button>
+  </div>
+</header>
+
+<br><br><br><br>
+<!-- =========================
+     Jobs Page
+========================== -->
+<section id="jobs" class="container">
+
+  <!-- =========================
+       Controls / Filters
+  ========================== -->
+  <section id="controls">
+
+    <div class="filter-bar">
+
+      <div class="filter-toggles">
+        <button id="all-btn" class="active">All Jobs</button>
+        <button id="faang-btn">FAANG Only</button>
+        <button id="saved-toggle">⭐ Saved (<span id="saved-count">0</span>)</button>
+      </div>
+
+      <div class="filter-controls">
+        <select id="location-filter">
+          <option value="">All locations</option>
+          <option value="remote">Remote</option>
+          <option value="toronto">Toronto</option>
+          <option value="vancouver">Vancouver</option>
+          <option value="waterloo">Waterloo</option>
+          <option value="ottawa">Ottawa</option>
+        </select>
+
+        <select id="role-filter">
+          <option value="">All roles</option>
+          <option value="software">Software Engineer</option>
+          <option value="backend">Backend</option>
+          <option value="frontend">Frontend</option>
+          <option value="data">Data / ML</option>
+          <option value="security">Security</option>
+        </select>
+
+        <select id="time-filter">
+          <option value="">Any time</option>
+          <option value="1">Last 24 hours</option>
+          <option value="3">Last 3 days</option>
+          <option value="7">Last 7 days</option>
+        </select>
+
+        <label class="checkbox-filter">
+          <input type="checkbox" id="unapplied-only" />
+          Unapplied
+        </label>
+      </div>
+
+    </div>
+
+    <input
+      type="text"
+      id="search-input"
+      placeholder="Search by job title or company..."
+    />
+
+    <p id="job-count"></p>
+  </section>
+
+  <!-- =========================
+       Jobs Container
+  ========================== -->
+  <main id="jobs-container">
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+  </main>
+
+</section>
+
+<!-- =========================
+     Footer
+========================== -->
+<footer class="site-footer" id="about">
+  <div class="footer-inner">
+    <p>© 2025 Canadian CS Internships. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
